@@ -6,4 +6,4 @@ const port = process.env.PORT || 4444;
 const server = http.createServer(app);
 
 server.listen(port);
-console.log(port)
+console.log(port);
