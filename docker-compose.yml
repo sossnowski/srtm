@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: srtm-service
+    networks:
+      - dtm
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.srtm-service.rule=Host(`srtm.devel.azure.hawk-e.com.pl`)"
+      - "traefik.http.routers.srtm-service.entrypoints=websecure"
+      - "traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver"
+      - "traefik.http.services.srtm-service.loadbalancer.server.port=4444"
+
+
+networks:
+  dtm:
+    external: true
