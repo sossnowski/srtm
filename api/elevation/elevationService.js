@@ -14,7 +14,7 @@ module.exports.pointFromCoordinates = (coordinates) => {
 module.exports.getElevation = (point) => {
   const tileset = new TileSet('./data/');
   return new Promise((resolve, reject) => {
-    tileset.getElevation([point.lat, point.lo], (err, elevation) => {
+    tileset.getElevation([point.lat, point.lon], (err, elevation) => {
       if (err) {
         reject(err);
       }
