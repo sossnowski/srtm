@@ -1,24 +1,26 @@
-const { TileSet } = require('node-hgt');
-
 const express = require('express');
+const logger = require('../../logger');
+const elevationController = require('./elevationController');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  let result;
-  var tileset = new TileSet('./data/');
-  tileset.getElevation([51.9, 19.6], (err, elevation) => {
-    if (err) {
-      console.log(`getElevation failed: ${err.message}`);
-    }
-    else {
-      result = elevation;
-      console.log(elevation);
-      res.status(200).json({
-        elevation: result
-      });
-    }
-  });
+router.get('/point/:coordinates', async (req, res) => {
+  try {
+    const result = await elevationController.point(req.params.coordinates);
+    logger.log('info', 'Getting point elevation', { message: `${result.point.lon}, ${result.point.lat}` });
+    res.status(200).json({
+      point: result.point,
+      elevation: result.elevation
+    });
+  }
+  catch (error) {
+    logger.log('error', 'Getting point elevation', { message: error.message });
+    res.status(500).json({
+      error: {
+        message: error.message
+      }
+    });
+  }
 });
 
 module.exports = router;
