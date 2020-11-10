@@ -25,12 +25,13 @@ router.get('/point/:coordinates', async (req, res) => {
 
 router.get('/area/:distanceBetweenPoints', async (req, res) => {
   try {
-    // console.log(req.body)
     const result = await elevationController.area(req.body, req.params.distanceBetweenPoints);
-    // logger.log('info', 'Getting point elevation', { message: `${result.point.lon}, ${result.point.lat}` });
+    logger.log('info', 'Getting area elevation with point distance', {
+      message: req.params.distanceBetweenPoints
+    });
     res.status(200).json(result);
-    
-  } catch (error) {
+  }
+  catch (error) {
     logger.log('error', 'Getting point elevation', { message: error.message });
     res.status(500).json({
       error: {
@@ -38,6 +39,6 @@ router.get('/area/:distanceBetweenPoints', async (req, res) => {
       }
     });
   }
-})
+});
 
 module.exports = router;

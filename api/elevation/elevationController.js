@@ -11,33 +11,52 @@ module.exports.point = async (coordinates) => {
   }
 };
 
-module.exports.area = async (geojson, distance) => {
-    try {
-        let allAreasMinMsl = Infinity;
-        let allAreasMaxMsl = 0;
-        let sum = 0;
-        let counter = 0;
+module.exports.area = async (areasData, distance) => {
+  try {
+    const allAreasMinMsl = Infinity;
+    const allAreasMaxMsl = 0;
+    const sum = 0;
+    const counter = 0;
 
-        for (const area of geojson.features) {
-            const pointsGrid = elevationService.getPointsGridOfArea(area, distance)
-            const countedValues = await elevationService.getDataFromPointsGrid(pointsGrid)
+    const height = areasData.max - areasData.min;
+    const partOfZoneHeight = 1 / 2;
 
-            area.properties = {...area.properties, ...countedValues}
+    const elevationsPromise = areasData.geojson.features.map(async (area, index) => {
+      const pointsGrid = elevationService.getPointsGridOfArea(area, distance, index);
 
-            if (countedValues.maxMsl > allAreasMaxMsl) allAreasMaxMsl = countedValues.maxMsl
-            if (countedValues.minMsl < allAreasMinMsl) allAreasMinMsl = countedValues.minMsl
-            sum += countedValues.averageMsl
-            counter += 1;
+      const elevations = await elevationService.getElevationsFromPointsGrid(pointsGrid);
+      return { elevations, points: pointsGrid };
+    });
+    const resolvedElevations = await Promise.all(elevationsPromise);
 
-        }
+    const result = [];
+    resolvedElevations.forEach((polygon, index) => {
+    //   console.log(polygon);
+      const splitedPolygons = elevationService.splitPolygon(
+        polygon, areasData.geojson.features[index], 3
+      );
+      result.push(splitedPolygons);
+    });
 
-        return {
-            allAreasMaxMsl,
-            allAreasMinMsl,
-            allAreasAverageMslLevel: sum / counter,
-            geojson
-        }
-    } catch (error) {
-        throw new Error(error.message)
-    }
-}
+    // if (countedValues.maxMsl - countedValues.minMsl > height * partOfZoneHeight) {
+    //     elevationService.splitPolygon(area, pointsGrid, height);
+    //   }
+    //   area.properties = { ...area.properties, ...countedValues };
+
+    //   if (countedValues.maxMsl > allAreasMaxMsl) allAreasMaxMsl = countedValues.maxMsl;
+    //   if (countedValues.minMsl < allAreasMinMsl) allAreasMinMsl = countedValues.minMsl;
+    //   sum += countedValues.averageMsl;
+    //   counter += 1;
+
+    // return {
+    //   allAreasMaxMsl,
+    //   allAreasMinMsl,
+    //   allAreasAverageMslLevel: sum / counter,
+    //   geojson: areasData.geojson
+    // };
+    return result;
+  }
+  catch (error) {
+    throw new Error(error.message);
+  }
+};

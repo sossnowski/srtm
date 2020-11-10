@@ -21,9 +21,6 @@
         ],
         "one-var": [
             "off"
-        ],
-        "no-restricted-syntax": [
-            "ForOfStatement"
-        ],
+        ]
     }
 }
