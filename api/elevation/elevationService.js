@@ -11,12 +11,12 @@ const { lineString, point, polygon } = require('@turf/helpers');
 module.exports.pointFromCoordinates = (coordinates) => {
   const splitedCoordinates = coordinates.split(',');
   if (splitedCoordinates.length !== 2) throw new Error('Point require exactly two coordinates');
-  const point = {
+  const pointGeometry = {
     lon: splitedCoordinates[0],
     lat: splitedCoordinates[1]
   };
 
-  return point;
+  return pointGeometry;
 };
 
 module.exports.getElevation = (requestPoint) => {
@@ -34,10 +34,6 @@ module.exports.getElevation = (requestPoint) => {
 };
 
 module.exports.getPointsGridOfArea = (area, pointDistance) => {
-//   const bboxFromGeojson = bbox(area);
-//   const pointsGridFromBbox = pointsGrid(bboxFromGeojson, distance, { units: 'meters' });
-
-  //   return pointsGridFromBbox;
   const { coordinates } = area.geometry;
   const midPoints = [];
   if (
@@ -95,7 +91,7 @@ module.exports.getStatiticsDataFromElevationsArray = (elevationsArray) => {
 
 module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
   let referenceElevation = polygonData.elevations[0];
-  const splitedPolygonsPoints = [];
+  const splitedPolygon = [];
 
   const distanceFromFirstToSecondPointOfPolygon = distance(
     point(polygonGeojson.geometry.coordinates[0][0]),
@@ -112,6 +108,7 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
   let polygonStartPoint;
   let polygonEndPoint;
   const lastPointsOfArea = [];
+
   if (distanceFromFirstToSecondPointOfPolygon > distanceFromSecondToThirdPointOfPolygon) {
     firstLine = lineString([
       polygonGeojson.geometry.coordinates[0][0],
@@ -122,8 +119,8 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
       polygonGeojson.geometry.coordinates[0][3]
     ]);
 
-    polygonStartPoint = polygonGeojson.geometry.coordinates[0][0];
-    polygonEndPoint = polygonGeojson.geometry.coordinates[0][3];
+    ({ 0: { 0: polygonStartPoint } } = polygonGeojson.geometry.coordinates);
+    ({ 0: { 3: polygonEndPoint } } = polygonGeojson.geometry.coordinates);
 
     lastPointsOfArea.push(
       polygonGeojson.geometry.coordinates[0][1],
@@ -140,8 +137,8 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
       polygonGeojson.geometry.coordinates[0][4]
     ]);
 
-    polygonStartPoint = polygonGeojson.geometry.coordinates[0][1];
-    polygonEndPoint = polygonGeojson.geometry.coordinates[0][4];
+    ({ 0: { 1: polygonStartPoint } } = polygonGeojson.geometry.coordinates);
+    ({ 0: { 4: polygonEndPoint } } = polygonGeojson.geometry.coordinates);
 
     lastPointsOfArea.push(
       polygonGeojson.geometry.coordinates[0][2],
@@ -149,11 +146,12 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
     );
   }
 
-  for (let i = 1; i < polygonData.elevations.length; i += 1) {
-    // console.log(Math.abs(referenceElevation - polygon.elevations[i]));
-    if (Math.abs(referenceElevation - polygonData.elevations[i]) > height) {
-      console.log(Math.abs(referenceElevation - polygonData.elevations[i]));
+  let polygonElevations = [];
+  polygonElevations.push(polygonData.elevations[0]);
 
+  for (let i = 1; i < polygonData.elevations.length; i += 1) {
+    polygonElevations.push(polygonData.elevations[i]);
+    if (Math.abs(referenceElevation - polygonData.elevations[i]) > height) {
       const firstExtraPoint = nearestPoint(
         firstLine, polygonData.points[i]
       ).geometry.coordinates;
@@ -161,7 +159,7 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
         secondLine, polygonData.points[i]
       ).geometry.coordinates;
 
-      splitedPolygonsPoints.push(polygon([[
+      splitedPolygon.push(polygon([[
         polygonStartPoint,
         firstExtraPoint,
         secondExtraPoint,
@@ -169,19 +167,44 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
         polygonStartPoint
       ]]));
 
-      //   splitedPolygonsPoints.push(newPolygon);
-      //   console.log(splitedPolygonsPoints);
+      const maxElevation = Math.max(...polygonElevations);
+      const minElevation = Math.min(...polygonElevations);
+      const sum = polygonElevations.reduce((a, b) => a + b, 0);
+      const avg = sum / polygonElevations.length;
+
+      polygonElevations = [];
+
+      splitedPolygon[splitedPolygon.length - 1].properties = {
+        minElevation,
+        maxElevation,
+        avg
+      };
+
       referenceElevation = polygonData.elevations[i];
       polygonStartPoint = firstExtraPoint;
       polygonEndPoint = secondExtraPoint;
     }
   }
-  splitedPolygonsPoints.push(polygon([[
+  splitedPolygon.push(polygon([[
     polygonStartPoint,
     lastPointsOfArea[0],
     lastPointsOfArea[1],
     polygonEndPoint,
     polygonStartPoint
   ]]));
-  return splitedPolygonsPoints;
+
+  const maxElevation = Math.max(...polygonElevations);
+  const minElevation = Math.min(...polygonElevations);
+  const sum = polygonElevations.reduce((a, b) => a + b, 0);
+  const avg = sum / polygonElevations.length;
+
+  polygonElevations = [];
+
+  splitedPolygon[splitedPolygon.length - 1].properties = {
+    minElevation,
+    maxElevation,
+    avg
+  };
+
+  return splitedPolygon;
 };
