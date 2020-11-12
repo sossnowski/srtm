@@ -9,8 +9,8 @@ module.exports.pointFromCoordinates = (coordinates) => {
   const splitedCoordinates = coordinates.split(',');
   if (splitedCoordinates.length !== 2) throw new Error('Point require exactly two coordinates');
   const pointGeometry = {
-    lon: splitedCoordinates[0],
-    lat: splitedCoordinates[1]
+    lon: splitedCoordinates[1],
+    lat: splitedCoordinates[0]
   };
 
   return pointGeometry;

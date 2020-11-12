@@ -26,21 +26,12 @@ app.use((req, res, next) => {
 
 app.use('/elevation', elevationRoutes);
 
-app.use((error, req, res) => {
-  if (error) {
-    res.status(error.status || 500).json({
-      error: {
-        message: error.message
-      }
-    });
-  }
-  else {
-    res.status(404).json({
-      error: {
-        message: 'Not Found'
-      }
-    });
-  }
+app.use((req, res) => {
+  res.status(404).json({
+    error: {
+      message: 'Not Found'
+    }
+  });
 });
 
 module.exports = app;
