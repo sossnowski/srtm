@@ -34,22 +34,17 @@ module.exports.getElevation = (requestPoint) => {
 };
 
 module.exports.getPointsGridOfArea = (area, pointDistance) => {
+  if (area.geometry.type === 'LineString') return [];
   const { coordinates } = area.geometry;
   const midPoints = [];
-  if (
-    distance(coordinates[0][0], coordinates[0][1])
-        > distance(coordinates[0][1], coordinates[0][2])
-  ) {
-    midPoints.push(midPoint(coordinates[0][1], coordinates[0][2]).geometry.coordinates);
-    midPoints.push(midPoint(coordinates[0][3], coordinates[0][4]).geometry.coordinates);
-  }
-  else {
-    midPoints.push(midPoint(coordinates[0][0], coordinates[0][1]).geometry.coordinates);
-    midPoints.push(midPoint(coordinates[0][2], coordinates[0][3]).geometry.coordinates);
-  }
+
+  midPoints.push(midPoint(coordinates[0][4], coordinates[0][0]).geometry.coordinates);
+  midPoints.push(midPoint(coordinates[0][1], coordinates[0][2]).geometry.coordinates);
+
   const line = lineString(midPoints);
 
   const chunks = lineChunk(line, pointDistance, { units: 'meters' });
+
   const points = chunks.features.map((partialLine) => {
     const newObject = partialLine;
     newObject.geometry.type = 'Point';
@@ -103,48 +98,26 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
     polygonGeojson.geometry.coordinates[0][2]
   );
 
-  let firstLine;
-  let secondLine;
   let polygonStartPoint;
   let polygonEndPoint;
   const lastPointsOfArea = [];
 
-  if (distanceFromFirstToSecondPointOfPolygon > distanceFromSecondToThirdPointOfPolygon) {
-    firstLine = lineString([
-      polygonGeojson.geometry.coordinates[0][0],
-      polygonGeojson.geometry.coordinates[0][1]
-    ]);
-    secondLine = lineString([
-      polygonGeojson.geometry.coordinates[0][2],
-      polygonGeojson.geometry.coordinates[0][3]
-    ]);
+  const firstLine = lineString([
+    polygonGeojson.geometry.coordinates[0][0],
+    polygonGeojson.geometry.coordinates[0][1]
+  ]);
+  const secondLine = lineString([
+    polygonGeojson.geometry.coordinates[0][2],
+    polygonGeojson.geometry.coordinates[0][3]
+  ]);
 
-    ({ 0: { 0: polygonStartPoint } } = polygonGeojson.geometry.coordinates);
-    ({ 0: { 3: polygonEndPoint } } = polygonGeojson.geometry.coordinates);
+  ({ 0: { 0: polygonStartPoint } } = polygonGeojson.geometry.coordinates);
+  ({ 0: { 3: polygonEndPoint } } = polygonGeojson.geometry.coordinates);
 
-    lastPointsOfArea.push(
-      polygonGeojson.geometry.coordinates[0][1],
-      polygonGeojson.geometry.coordinates[0][2]
-    );
-  }
-  else {
-    firstLine = lineString([
-      polygonGeojson.geometry.coordinates[0][1],
-      polygonGeojson.geometry.coordinates[0][2]
-    ]);
-    secondLine = lineString([
-      polygonGeojson.geometry.coordinates[0][3],
-      polygonGeojson.geometry.coordinates[0][4]
-    ]);
-
-    ({ 0: { 1: polygonStartPoint } } = polygonGeojson.geometry.coordinates);
-    ({ 0: { 4: polygonEndPoint } } = polygonGeojson.geometry.coordinates);
-
-    lastPointsOfArea.push(
-      polygonGeojson.geometry.coordinates[0][2],
-      polygonGeojson.geometry.coordinates[0][3]
-    );
-  }
+  lastPointsOfArea.push(
+    polygonGeojson.geometry.coordinates[0][1],
+    polygonGeojson.geometry.coordinates[0][2]
+  );
 
   let polygonElevations = [];
   polygonElevations.push(polygonData.elevations[0]);

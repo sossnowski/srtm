@@ -13,12 +13,12 @@ module.exports.point = async (coordinates) => {
 
 module.exports.area = async (areasData, distance) => {
   try {
+    const polygons = areasData.geojson.features.filter((area) => area.geometry.type !== 'LineString');
     const height = areasData.max - areasData.min;
     const partOfZoneHeight = 1 / 2;
 
-    const elevationsPromise = areasData.geojson.features.map(async (area) => {
+    const elevationsPromise = polygons.map(async (area) => {
       const pointsGrid = elevationService.getPointsGridOfArea(area, distance);
-
       const elevations = await elevationService.getElevationsFromPointsGrid(pointsGrid);
       return { elevations, points: pointsGrid };
     });
@@ -27,7 +27,7 @@ module.exports.area = async (areasData, distance) => {
     const result = [];
     resolvedElevations.forEach((polygon, index) => {
       const splitedPolygons = elevationService.splitPolygon(
-        polygon, areasData.geojson.features[index], height * partOfZoneHeight
+        polygon, polygons[index], height * partOfZoneHeight
       );
       result.push(splitedPolygons);
     });
