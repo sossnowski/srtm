@@ -1,12 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 const { TileSet } = require('node-hgt');
-const bbox = require('@turf/bbox').default;
-const pointsGrid = require('@turf/point-grid').default;
 const lineChunk = require('@turf/line-chunk');
 const nearestPoint = require('@turf/nearest-point-on-line').default;
-const distance = require('@turf/distance').default;
 const midPoint = require('@turf/midpoint');
-const { lineString, point, polygon } = require('@turf/helpers');
+const { lineString, polygon } = require('@turf/helpers');
 
 module.exports.pointFromCoordinates = (coordinates) => {
   const splitedCoordinates = coordinates.split(',');
@@ -87,16 +84,6 @@ module.exports.getStatiticsDataFromElevationsArray = (elevationsArray) => {
 module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
   let referenceElevation = polygonData.elevations[0];
   const splitedPolygon = [];
-
-  const distanceFromFirstToSecondPointOfPolygon = distance(
-    point(polygonGeojson.geometry.coordinates[0][0]),
-    point(polygonGeojson.geometry.coordinates[0][1])
-  );
-
-  const distanceFromSecondToThirdPointOfPolygon = distance(
-    polygonGeojson.geometry.coordinates[0][1],
-    polygonGeojson.geometry.coordinates[0][2]
-  );
 
   let polygonStartPoint;
   let polygonEndPoint;
