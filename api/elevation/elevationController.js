@@ -13,6 +13,7 @@ module.exports.point = async (coordinates) => {
 
 module.exports.area = async (areasData, distance) => {
   try {
+    const lineString = areasData.geojson.features.find((area) => area.geometry.type === 'LineString');
     const polygons = areasData.geojson.features.filter((area) => area.geometry.type !== 'LineString');
     const height = areasData.max - areasData.min;
     const partOfZoneHeight = 1 / 2;
@@ -29,10 +30,14 @@ module.exports.area = async (areasData, distance) => {
       const splitedPolygons = elevationService.splitPolygon(
         polygon, polygons[index], height * partOfZoneHeight
       );
-      result.push(splitedPolygons);
+      result.push(...splitedPolygons);
     });
 
-    return result;
+    const responseData = areasData;
+    responseData.geojson.features = result;
+    responseData.geojson.features.push(lineString);
+
+    return responseData;
   }
   catch (error) {
     throw new Error(error.message);
