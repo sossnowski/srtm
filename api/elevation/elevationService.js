@@ -135,9 +135,13 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
       polygonElevations = [];
 
       splitedPolygon[splitedPolygon.length - 1].properties = {
-        minElevation,
-        maxElevation,
-        avg
+        elevationMinM: minElevation,
+        elevationMaxM: maxElevation,
+        elevationAvgM: avg,
+        aglMinM: polygonGeojson.properties.minHeight,
+        aglMaxM: polygonGeojson.properties.maxHeight,
+        amslMinM: minElevation + polygonGeojson.properties.minHeight,
+        amslMaxM: maxElevation + polygonGeojson.properties.maxHeight
       };
 
       referenceElevation = polygonData.elevations[i];
@@ -161,9 +165,13 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
   polygonElevations = [];
 
   splitedPolygon[splitedPolygon.length - 1].properties = {
-    minElevation,
-    maxElevation,
-    avg
+    elevationMinM: minElevation,
+    elevationMaxM: maxElevation,
+    elevationAvgM: avg,
+    aglMinM: polygonGeojson.properties.minHeight,
+    aglMaxM: polygonGeojson.properties.maxHeight,
+    amslMinM: minElevation + polygonGeojson.properties.minHeight,
+    amslMaxM: maxElevation + polygonGeojson.properties.maxHeight
   };
 
   return splitedPolygon;

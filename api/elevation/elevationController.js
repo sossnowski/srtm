@@ -31,17 +31,12 @@ module.exports.area = async (areasData, distance) => {
       const splitedPolygons = elevationService.splitPolygon(
         resolvedElevations[i], polygons[i], height * partOfZoneHeight
       );
-      for (const polygonPart of splitedPolygons) {
-        polygonPart.properties.min = areasData.min;
-        polygonPart.properties.max = areasData.max;
-        result.push(
-          polygonPart
-        );
-      }
+      result.push(...splitedPolygons);
     }
 
     const responseData = areasData;
     responseData.geojson.features = result;
+    lineString.properties = {};
     responseData.geojson.features.push(lineString);
 
     return responseData;
