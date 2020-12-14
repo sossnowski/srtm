@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const elevationService = require('./elevationService');
 
 module.exports.point = async (coordinates) => {
@@ -26,19 +27,18 @@ module.exports.area = async (areasData, distance) => {
     const resolvedElevations = await Promise.all(elevationsPromise);
 
     const result = [];
-    resolvedElevations.forEach((polygon, index) => {
+    for (let i = 0; i < resolvedElevations.length; i += 1) {
       const splitedPolygons = elevationService.splitPolygon(
-        polygon, polygons[index], height * partOfZoneHeight
+        resolvedElevations[i], polygons[i], height * partOfZoneHeight
       );
-      result.push(
-        // eslint-disable-next-line no-return-assign, no-param-reassign
-        ...splitedPolygons.map((polygonLeg) => polygonLeg.properties = {
-          ...polygon.properties,
-          min: areasData.min,
-          max: areasData.max
-        })
-      );
-    });
+      for (const polygonPart of splitedPolygons) {
+        polygonPart.properties.min = areasData.min;
+        polygonPart.properties.max = areasData.max;
+        result.push(
+          polygonPart
+        );
+      }
+    }
 
     const responseData = areasData;
     responseData.geojson.features = result;
