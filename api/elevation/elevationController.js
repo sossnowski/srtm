@@ -30,7 +30,14 @@ module.exports.area = async (areasData, distance) => {
       const splitedPolygons = elevationService.splitPolygon(
         polygon, polygons[index], height * partOfZoneHeight
       );
-      result.push(...splitedPolygons);
+      result.push(
+        // eslint-disable-next-line no-return-assign, no-param-reassign
+        ...splitedPolygons.map((polygonLeg) => polygonLeg.properties = {
+          ...polygon.properties,
+          min: areasData.min,
+          max: areasData.max
+        })
+      );
     });
 
     const responseData = areasData;
