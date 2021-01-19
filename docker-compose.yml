@@ -13,7 +13,11 @@ services:
       - "traefik.http.routers.srtm-service.entrypoints=websecure"
       - "traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver"
       - "traefik.http.services.srtm-service.loadbalancer.server.port=4444"
-
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
 
 networks:
   dtm:
