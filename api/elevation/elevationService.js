@@ -82,6 +82,10 @@ module.exports.getStatiticsDataFromElevationsArray = (elevationsArray) => {
 };
 
 module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
+  const polygonHeights = {
+    min: parseInt(polygonGeojson.properties.minHeight, 10),
+    max: parseInt(polygonGeojson.properties.maxHeight, 10)
+  };
   let referenceElevation = polygonData.elevations[0];
   const splitedPolygon = [];
 
@@ -138,10 +142,10 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
         elevationMinM: minElevation,
         elevationMaxM: maxElevation,
         elevationAvgM: avg,
-        aglMinM: polygonGeojson.properties.minHeight,
-        aglMaxM: polygonGeojson.properties.maxHeight,
-        amslMinM: avg + polygonGeojson.properties.minHeight,
-        amslMaxM: avg + polygonGeojson.properties.maxHeight
+        aglMinM: polygonHeights.min,
+        aglMaxM: polygonHeights.max,
+        amslMinM: avg + polygonHeights.min,
+        amslMaxM: avg + polygonHeights.max
       };
 
       referenceElevation = polygonData.elevations[i];
@@ -168,10 +172,10 @@ module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
     elevationMinM: minElevation,
     elevationMaxM: maxElevation,
     elevationAvgM: avg,
-    aglMinM: polygonGeojson.properties.minHeight,
-    aglMaxM: polygonGeojson.properties.maxHeight,
-    amslMinM: avg + polygonGeojson.properties.minHeight,
-    amslMaxM: avg + polygonGeojson.properties.maxHeight
+    aglMinM: polygonHeights.min,
+    aglMaxM: polygonHeights.max,
+    amslMinM: avg + polygonHeights.min,
+    amslMaxM: avg + polygonHeights.max
   };
 
   return splitedPolygon;
