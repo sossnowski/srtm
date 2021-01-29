@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   web:
@@ -18,7 +18,6 @@ services:
       options:
         max-size: "100m"
         max-file: "3"
-
 networks:
   dtm:
     external: true

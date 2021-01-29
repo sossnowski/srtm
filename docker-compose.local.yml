@@ -1,25 +1,23 @@
-version: '3'
+version: "3"
 
 services:
   web:
     build: .
     container_name: srtm-service
     networks:
-      - dtm
+      - custom
     restart: unless-stopped
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.srtm-service.rule=Host(`srtm.devel.azure.hawk-e.com.pl`)"
-      - "traefik.http.routers.srtm-service.entrypoints=websecure"
-      - "traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver"
-      - "traefik.http.services.srtm-service.loadbalancer.server.port=4444"
+      - traefik.enable=true
+      - traefik.http.routers.srtm-service.rule=Host('srtm.$DEVEL')
+      - traefik.http.routers.srtm-service.entrypoints=websecure
+      - traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver
+      - traefik.http.services.srtm-service.loadbalancer.server.port=4444
     logging:
       driver: "json-file"
       options:
         max-size: "100m"
         max-file: "3"
-
-
 networks:
-  dtm:
+  custom:
     external: true
