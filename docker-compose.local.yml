@@ -1,11 +1,12 @@
 version: "3"
 
 services:
-  web:
+  srtm-service:
     build: .
     container_name: srtm-service
+    hostname: srtm-service
     networks:
-      - custom
+      - dtm
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -19,5 +20,5 @@ services:
         max-size: "100m"
         max-file: "3"
 networks:
-  custom:
+  dtm:
     external: true
