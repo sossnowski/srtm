@@ -10,7 +10,7 @@ services:
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.srtm-service.rule=Host('srtm.$DEVEL')
+      - traefik.http.routers.srtm-service.rule=Host('srtm.devel2.azure.hawk-e.com.pl')
       - traefik.http.routers.srtm-service.entrypoints=websecure
       - traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver
       - traefik.http.services.srtm-service.loadbalancer.server.port=4444
