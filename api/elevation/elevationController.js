@@ -12,6 +12,16 @@ module.exports.point = async (coordinates) => {
   }
 };
 
+module.exports.pointsArray = async (coordinates) => {
+  try {
+    const elevations = await elevationService.getElevationsFromPointsGrid(coordinates);
+    return elevations;
+  }
+  catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports.area = async (areasData, distance) => {
   try {
     const lineString = areasData.geojson.features.find((area) => area.geometry.type === 'LineString');
