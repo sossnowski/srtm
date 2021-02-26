@@ -23,9 +23,9 @@ router.get('/point/:coordinates', async (req, res) => {
   }
 });
 
-router.get('/ponitsArray/:coordinates', async (req, res) => {
+router.get('/pointsArray/:coordinates', async (req, res) => {
   try {
-    const result = await elevationController.point(req.params.coordinates);
+    const result = await elevationController.pointsArray(req.params.coordinates);
     logger.log('info', 'Getting point elevation', { message: `${result.point.lon}, ${result.point.lat}` });
     res.status(200).json({
       point: result.point,
