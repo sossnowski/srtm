@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/point/:coordinates', async (req, res) => {
   try {
     const result = await elevationController.point(req.params.coordinates);
-    logger.log('info', 'Getting point elevation', { message: `${result.point.lon}, ${result.point.lat}` });
+    logger.log('info', 'Getting point elevation', { message: req.params.coordinates });
     res.status(200).json({
       point: result.point,
       elevation: result.elevation
