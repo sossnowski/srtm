@@ -26,7 +26,7 @@ module.exports.getElevation = (requestPoint) => {
       else {
         resolve({
           elevation,
-          coordinates: [requestPoint.lon, requestPoint.lat]
+          coordinates: [requestPoint.lat, requestPoint.lon]
         });
       }
     });
