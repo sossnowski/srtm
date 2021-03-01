@@ -24,7 +24,10 @@ module.exports.getElevation = (requestPoint) => {
         reject(err);
       }
       else {
-        resolve(elevation);
+        resolve({
+          elevation,
+          coordinates: [requestPoint.lon, requestPoint.lat]
+        });
       }
     });
   });
