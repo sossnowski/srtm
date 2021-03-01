@@ -53,12 +53,17 @@ module.exports.getPointsGridOfArea = (area, pointDistance) => {
   return points;
 };
 
-module.exports.getElevationsFromPointsGrid = (points) => Promise.all(
-  points.map((pointFromGrid) => this.getElevation({
-    lat: pointFromGrid.geometry.coordinates[1],
-    lon: pointFromGrid.geometry.coordinates[0]
-  }))
-);
+module.exports.getElevationsFromPointsGrid = (points) => {
+  const allPromises = [];
+  for (const point of points) {
+    allPromises.push(this.getElevation({
+      lat: point[1],
+      lon: point[0]
+    }));
+  }
+
+  return Promise.all(allPromises);
+};
 
 module.exports.getStatiticsDataFromElevationsArray = (elevationsArray) => {
   let counter = 0;

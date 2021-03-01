@@ -12,9 +12,10 @@ module.exports.point = async (coordinates) => {
   }
 };
 
-module.exports.pointsArray = async (coordinates) => {
+module.exports.pointsArray = (coordinates) => {
   try {
-    const elevations = await elevationService.getElevationsFromPointsGrid(coordinates);
+    const elevations = elevationService.getElevationsFromPointsGrid(coordinates);
+
     return elevations;
   }
   catch (error) {
