@@ -1,6 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 const elevationService = require('./elevationService');
 
+/**
+ * Gets specific point and elevation for this point.
+ *
+ * @param {Tuple} coordinates Coordinates of a point.
+ * @returns {Object} Consist of specific point and evaluated elevation.
+ */
 module.exports.point = async (coordinates) => {
   const point = elevationService.pointFromCoordinates(coordinates);
   try {
@@ -12,6 +18,13 @@ module.exports.point = async (coordinates) => {
   }
 };
 
+/**
+ * Gets grid points of specific area and evaluate elevation for every part of this area.
+ *
+ * @param {Object} areasData Object containing data about area.
+ * @param {Number} distance Segments length
+ * @returns {Object} Contains updated with new features areasData object.
+ */
 module.exports.area = async (areasData, distance) => {
   try {
     const lineString = areasData.geojson.features.find((area) => area.geometry.type === 'LineString');

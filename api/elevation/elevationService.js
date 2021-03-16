@@ -5,6 +5,12 @@ const nearestPoint = require('@turf/nearest-point-on-line').default;
 const midPoint = require('@turf/midpoint');
 const { lineString, polygon } = require('@turf/helpers');
 
+/**
+ * Translate coordinates presented in text to an object of lon and lat values.
+ *
+ * @param {String} coordinates Lat and Lon values in text
+ * @returns {Object} {Lon, Lat} values
+ */
 module.exports.pointFromCoordinates = (coordinates) => {
   const splitedCoordinates = coordinates.split(',');
   if (splitedCoordinates.length !== 2) throw new Error('Point require exactly two coordinates');
@@ -16,6 +22,12 @@ module.exports.pointFromCoordinates = (coordinates) => {
   return pointGeometry;
 };
 
+/**
+ * Get elevation for selected point.
+ *
+ * @param {Object} requestPoint Contains coordinates in {lat, lon} form.
+ * @returns {Number} Elevation height.
+ */
 module.exports.getElevation = (requestPoint) => {
   const tileset = new TileSet('./data/');
   return new Promise((resolve, reject) => {
@@ -30,6 +42,13 @@ module.exports.getElevation = (requestPoint) => {
   });
 };
 
+/**
+ * Evaluate mesh points of given area.
+ *
+ * @param {Object} area Feature object.
+ * @param {Number} pointDistance Length of a segment
+ * @returns {Object} Contains every point coordinates.
+ */
 module.exports.getPointsGridOfArea = (area, pointDistance) => {
   if (area.geometry.type === 'LineString') return [];
   const { coordinates } = area.geometry;
@@ -53,6 +72,12 @@ module.exports.getPointsGridOfArea = (area, pointDistance) => {
   return points;
 };
 
+/**
+ * Evaluate elevation using mesh points returned by getPointsGridOfArea function.
+ *
+ * @param {Object} points Collection of mesh points.
+ * @returns {Array} Elevation for every given point.
+ */
 module.exports.getElevationsFromPointsGrid = (points) => Promise.all(
   points.map((pointFromGrid) => this.getElevation({
     lat: pointFromGrid.geometry.coordinates[1],
@@ -60,6 +85,12 @@ module.exports.getElevationsFromPointsGrid = (points) => Promise.all(
   }))
 );
 
+/**
+ * Gets max, min values of elevation and average elevation.
+ *
+ * @param {Array} elevationsArray Array of elevation measurements.
+ * @returns {Object} Contains min, max values and average elevation of elevationsArray.
+ */
 module.exports.getStatiticsDataFromElevationsArray = (elevationsArray) => {
   let counter = 0;
   let minMsl = Infinity;
@@ -81,6 +112,14 @@ module.exports.getStatiticsDataFromElevationsArray = (elevationsArray) => {
   };
 };
 
+/**
+ * Splits given polygon by limiting single part height.
+ *
+ * @param {Object} polygonData Polygon feature.
+ * @param {Object} polygonGeojson Geojson of polygon.
+ * @param {Number} height Max height of part of splitted area.
+ * @returns {Array} Splited polygon array with properties(minH, maxH, avg, amslH).
+ */
 module.exports.splitPolygon = (polygonData, polygonGeojson, height) => {
   let referenceElevation = polygonData.elevations[0];
   const splitedPolygon = [];

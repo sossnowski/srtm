@@ -1,0 +1,7 @@
+**redis**
+--------------------
+
+.. autofunction:: getAllKeysFromRawRedis
+.. autofunction:: getLastValueOfAllUavos
+.. autofunction:: saveUavosToMergedRedis
+.. autofunction:: getUavoFromRedisCache

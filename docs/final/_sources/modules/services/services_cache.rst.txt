@@ -1,0 +1,7 @@
+**cache**
+--------------------
+
+.. autofunction:: parseUavosToSaveInCache
+.. autofunction:: parseUavosToUpdateInCache
+.. autofunction:: agregateByUid
+.. autofunction:: agregateMergedUavosByUid
