@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Elevation &mdash; srtm-service  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Main folder" href="app.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> srtm-service
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="app.html"><strong>Main folder</strong></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"><strong>Elevation</strong></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#controller"><strong>Controller</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#routes"><strong>Routes</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#service"><strong>Service</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">srtm-service</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li><strong>Elevation</strong></li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/elevation.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="elevation">
+<h1><strong>Elevation</strong><a class="headerlink" href="#elevation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="controller">
+<h2><strong>Controller</strong><a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h2>
+<dl class="js function">
+<dt id="point">
+<code class="sig-name descname"><span class="pre">point</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">coordinates</span></em><span class="sig-paren">)</span><a class="headerlink" href="#point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets specific point and elevation for this point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>Tuple</em>) – Coordinates of a point.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Object</strong> – Consist of specific point and evaluated elevation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt id="area">
+<code class="sig-name descname"><span class="pre">area</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">areasData</span></em>, <em class="sig-param"><span class="pre">distance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets grid points of specific area and evaluate elevation for every part of this area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>areasData</strong> (<em>Object</em>) – Object containing data about area.</p></li>
+<li><p><strong>distance</strong> (<em>Number</em>) – Segments length</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Object</strong> – Contains updated with new features areasData object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="routes">
+<h2><strong>Routes</strong><a class="headerlink" href="#routes" title="Permalink to this headline">¶</a></h2>
+<p>Provides endpoints used in evaluation of an elevation.
+We can distinguish two specific endpoints: ‘/point/:coordinates’ and ‘/area/:distanceBetweenPoints’.
+Choosing an endpoint results in invoking functions from elevationController.js (point() or area()).</p>
+</div>
+<div class="section" id="service">
+<h2><strong>Service</strong><a class="headerlink" href="#service" title="Permalink to this headline">¶</a></h2>
+<dl class="js function">
+<dt id="pointFromCoordinates">
+<code class="sig-name descname"><span class="pre">pointFromCoordinates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">coordinates</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointFromCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate coordinates presented in text to an object of lon and lat values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coordinates</strong> (<em>String</em>) – Lat and Lon values in text</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Object</strong> – {Lon, Lat} values</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt id="getElevation">
+<code class="sig-name descname"><span class="pre">getElevation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">requestPoint</span></em><span class="sig-paren">)</span><a class="headerlink" href="#getElevation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get elevation for selected point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>requestPoint</strong> (<em>Object</em>) – Contains coordinates in {lat, lon} form.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Number</strong> – Elevation height.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt id="getPointsGridOfArea">
+<code class="sig-name descname"><span class="pre">getPointsGridOfArea</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">area</span></em>, <em class="sig-param"><span class="pre">pointDistance</span></em><span class="sig-paren">)</span><a class="headerlink" href="#getPointsGridOfArea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate mesh points of given area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area</strong> (<em>Object</em>) – Feature object.</p></li>
+<li><p><strong>pointDistance</strong> (<em>Number</em>) – Length of a segment</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Object</strong> – Contains every point coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt id="getElevationsFromPointsGrid">
+<code class="sig-name descname"><span class="pre">getElevationsFromPointsGrid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#getElevationsFromPointsGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate elevation using mesh points returned by getPointsGridOfArea function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>Object</em>) – Collection of mesh points.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Array</strong> – Elevation for every given point.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt id="getStatiticsDataFromElevationsArray">
+<code class="sig-name descname"><span class="pre">getStatiticsDataFromElevationsArray</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">elevationsArray</span></em><span class="sig-paren">)</span><a class="headerlink" href="#getStatiticsDataFromElevationsArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets max, min values of elevation and average elevation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elevationsArray</strong> (<em>Array</em>) – Array of elevation measurements.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Object</strong> – Contains min, max values and average elevation of elevationsArray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="js function">
+<dt id="splitPolygon">
+<code class="sig-name descname"><span class="pre">splitPolygon</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">polygonData</span></em>, <em class="sig-param"><span class="pre">polygonGeojson</span></em>, <em class="sig-param"><span class="pre">height</span></em><span class="sig-paren">)</span><a class="headerlink" href="#splitPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits given polygon by limiting single part height.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Arguments</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>polygonData</strong> (<em>Object</em>) – Polygon feature.</p></li>
+<li><p><strong>polygonGeojson</strong> (<em>Object</em>) – Geojson of polygon.</p></li>
+<li><p><strong>height</strong> (<em>Number</em>) – Max height of part of splitted area.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Array</strong> – Splited polygon array with properties(minH, maxH, avg, amslH).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="app.html" class="btn btn-neutral float-left" title="Main folder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Hawk-e sp. z o.o..
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
