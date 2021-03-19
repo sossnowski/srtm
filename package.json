@@ -9,13 +9,6 @@
   "author": "Krzysztof Brzoska",
   "license": "ISC",
   "dependencies": {
-    "@turf/bbox": "^6.0.1",
-    "@turf/distance": "^6.0.1",
-    "@turf/helpers": "^6.1.4",
-    "@turf/line-chunk": "^5.1.5",
-    "@turf/midpoint": "^5.1.5",
-    "@turf/nearest-point-on-line": "^6.0.2",
-    "@turf/point-grid": "^6.0.1",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
