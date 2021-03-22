@@ -1,6 +1,0 @@
-**requests**
---------------------
-
-.. autofunction:: generateToken
-.. autofunction:: saveUavos
-.. autofunction:: updateUavos

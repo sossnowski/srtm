@@ -1,8 +1,0 @@
-**main**
---------------------
-
-.. autofunction:: filterKeys
-.. autofunction:: getUavoFromCache
-.. autofunction:: createKey
-.. autofunction:: getFirstNotNullKeyValueForUavo
-.. autofunction:: addUavoToObject
