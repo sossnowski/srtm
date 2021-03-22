@@ -1,6 +1,12 @@
 /* eslint-disable no-restricted-syntax */
 const { TileSet } = require('node-hgt');
 
+/**
+ * Translate coordinates presented in text to an object of lon and lat values.
+ *
+ * @param {String} coordinates Lat and Lon values in text
+ * @returns {Object} {Lon, Lat} values
+ */
 module.exports.pointFromCoordinates = (coordinates) => {
   const splitedCoordinates = coordinates.split(',');
   if (splitedCoordinates.length !== 2) throw new Error('Point require exactly two coordinates');
@@ -12,6 +18,12 @@ module.exports.pointFromCoordinates = (coordinates) => {
   return pointGeometry;
 };
 
+/**
+ * Get elevation for selected point.
+ *
+ * @param {Object} requestPoint Contains coordinates in {lat, lon} form.
+ * @returns {Number} Elevation height.
+ */
 module.exports.getElevation = (requestPoint) => {
   const tileset = new TileSet('./data/');
   return new Promise((resolve, reject) => {
@@ -29,6 +41,12 @@ module.exports.getElevation = (requestPoint) => {
   });
 };
 
+/**
+ * Evaluate elevation using mesh points returned by getPointsGridOfArea function.
+ *
+ * @param {Object} points Collection of mesh points.
+ * @returns {Array} Elevation for every given point.
+ */
 module.exports.getElevationsFromPointsGrid = (points) => {
   const allPromises = [];
   for (const point of points) {
