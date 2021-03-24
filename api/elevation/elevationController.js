@@ -17,7 +17,6 @@ module.exports.point = async (coordinates) => {
   }
 };
 
-module.exports.pointsArray = (coordinates) => {
 /**
  * Gets grid points of specific area and evaluate elevation for every part of this area.
  *
@@ -25,13 +24,8 @@ module.exports.pointsArray = (coordinates) => {
  * @param {Number} distance Segments length
  * @returns {Object} Contains updated with new features areasData object.
  */
-module.exports.area = async (areasData, distance) => {
-  try {
-    const elevations = elevationService.getElevationsFromPointsGrid(coordinates);
+module.exports.pointsArray = (coordinates) => {
+  const elevations = elevationService.getElevationsFromPointsGrid(coordinates);
 
-    return elevations;
-  }
-  catch (error) {
-    throw new Error(error.message);
-  }
+  return elevations;
 };

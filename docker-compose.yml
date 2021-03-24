@@ -8,6 +8,8 @@ services:
     networks:
       - dtm
     restart: unless-stopped
+    volumes:
+      - ./data:/srtm-service/data
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.srtm-service.rule=Host(`srtm.devel2.azure.hawk-e.com.pl`)"
