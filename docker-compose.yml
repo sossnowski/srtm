@@ -3,8 +3,8 @@ version: "3"
 services:
   srtm-service:
     build: .
-    container_name: srtm-service
-    hostname: srtm-service
+    container_name: ${SRTM}
+    hostname: ${SRTM}
     networks:
       - dtm
     restart: unless-stopped
@@ -12,10 +12,10 @@ services:
       - ./data:/srtm-service/data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.srtm-service.rule=Host(`srtm.devel2.azure.hawk-e.com.pl`)"
+      - "traefik.http.routers.srtm-service.rule=Host(`${SRTM_SERVER}`)"
       - "traefik.http.routers.srtm-service.entrypoints=websecure"
       - "traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver"
-      - "traefik.http.services.srtm-service.loadbalancer.server.port=4444"
+      - "traefik.http.services.srtm-service.loadbalancer.server.port=${SRTM_PORT}"
     logging:
       driver: "json-file"
       options:
