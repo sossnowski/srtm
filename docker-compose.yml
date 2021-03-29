@@ -5,6 +5,8 @@ services:
     build: .
     container_name: ${SRTM}
     hostname: ${SRTM}
+    environment: 
+      PORT: ${SRTM_PORT}
     networks:
       - dtm
     restart: unless-stopped
