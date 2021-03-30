@@ -10,6 +10,8 @@ services:
     restart: unless-stopped
     environment: 
       PORT: ${SRTM_PORT}
+    ports:
+      - "${SRTM_PORT}:${SRTM_PORT}"
     labels:
       - traefik.enable=false
     logging:
