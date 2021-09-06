@@ -19,10 +19,10 @@ services:
       - "traefik.http.routers.srtm-service.tls.certresolver=letsencryptresolver"
       - "traefik.http.services.srtm-service.loadbalancer.server.port=${SRTM_PORT}"
     logging:
-      driver: "json-file"
+      driver: "gelf"
       options:
-        max-size: "100m"
-        max-file: "3"
+        gelf-address: ${GRAYLOG_SERVER}
+        tag: ${SRTM}
 networks:
   dtm:
     external: true
